@@ -1,0 +1,91 @@
+package com.company;
+
+import java.util.Scanner;
+import java.lang.String;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String[] symbol;
+        int[] vryma;
+
+        int n;
+        Scanner in = new Scanner(System.in);
+        System.out.print("Количество очередей :");
+        n = in.nextInt();
+
+        symbol = new String[n+1];
+
+        for (int i=0; i<=n;i++) {
+            System.out.print("Введите название очереди:");
+            symbol[i] = in.nextLine();
+        }
+
+        vryma = new int[n+1];
+        for (int i = 1; i <= n; i++) {
+
+            RR och = new RR(symbol[i], 0, vryma[i]);
+            System.out.print("Время очереди  " + och.getName() + "=");
+            vryma[i] = in.nextInt();
+        }
+
+        //В этом цикле нахожу сколько будет повторятся очередь
+        int dlina = -999;
+        for (int i = 1; i <= n; i++) {
+            if(vryma[i] > dlina){
+                dlina = vryma[i];
+            }
+        }
+        System.out.println();
+        System.out.println("Очередь повторяется " + dlina + " раз");
+        System.out.println();
+
+        //Тут нахожу начальное время ожидание
+        int m;
+        int[] time = new int[n+1];
+        for(int i=1;i<=n;i++){
+            time[i] = i-1;
+            System.out.println("начальное время ожидание " + symbol[i] + "=" + time[i]);
+        }m=time[n];
+
+            System.out.println();
+
+        //В этом цикле начинает работать очередь с symbol[1] до symbol[n]. Очередь повторяется пока каждая очередь не будет ровна 1.И находим время ожидание каждой очереди
+        for(int j=0;j<dlina;j++) {
+            for (int i = 1; i <= n; i++) {
+                RR och = new RR(symbol[i], 0, vryma[i]);
+
+                if(vryma[i] > 1){
+                    time[i]+=m;
+                    System.out.print(och.getName());
+                    och.setBurst_time(och.getBurst_time()-1);
+                    vryma[i]=och.getBurst_time();
+                }
+                else if(vryma[i] == 1){
+                    System.out.print(och.getName());
+                    och.setBurst_time(och.getBurst_time()-1);
+                    vryma[i]=och.getBurst_time();
+                    m-=1;
+                }
+                else{
+                    och.setBurst_time(och.getBurst_time());
+                    vryma[i]=och.getBurst_time();
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        float obsh = 0;
+        //Тут находим среднее время ожидание
+        for(int i=1;i<=n;i++){
+            RR och = new RR(symbol[i], 0, vryma[i]);
+            och.setArr_time(obsh+=((time[i]/4)+(time[i]%4*0.1)));
+            System.out.println("Время ожидание " + symbol[i] + " = " + time[i]);
+        }
+        System.out.println();
+        System.out.println("Среднее время ожидания" + obsh);
+    }
+
+}
