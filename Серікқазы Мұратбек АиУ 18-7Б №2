@@ -1,0 +1,43 @@
+package com.company;
+
+        import java.util.Scanner;
+        import java.lang.String;
+
+public class RR {
+    private String name;
+    private float arr_time;
+    private int burst_time;
+    //public int burst_time;
+
+    public RR(String name,float arr_time, int burst_time){
+        this.name = name;
+        this.arr_time = arr_time;
+        this.burst_time = burst_time;
+    }
+
+    public String getName(){
+        return  name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public float getArr_time(){
+        return arr_time;
+    }
+
+    public void setArr_time(float arr_time){
+        this.arr_time = arr_time;
+
+    }
+
+    public int getBurst_time(){
+        return burst_time;
+    }
+
+    public void setBurst_time(int burst_time){
+        this.burst_time = burst_time;
+    }
+
+}
